@@ -1,0 +1,22 @@
+apply plugin: 'scala'
+apply plugin: 'idea'
+
+version = "0.1"
+group = "com.nabijaczleweli.cgol" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Scala-CGOL"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.0-RC3'
+    testCompile "org.scala-lang:scala-library:2.11.0-RC3"
+}
+
+tasks.withType(ScalaCompile) {
+    configure(scalaCompileOptions.forkOptions) {
+        memoryMaximumSize = '1g'
+        jvmArgs = ['-XX:MaxPermSize=512m']
+    }
+}
