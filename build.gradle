@@ -1,22 +1,37 @@
-apply plugin: 'scala'
-apply plugin: 'idea'
+apply {
+    plugin 'scala'
+    plugin 'idea'
+}
 
-version = "0.1"
-group = "com.nabijaczleweli.cgol" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "Scala-CGOL"
+version = '0.9.8'
+group = 'com.scala_game_of_life'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.11.0-RC3'
-    testCompile "org.scala-lang:scala-library:2.11.0-RC3"
+    compile 'org.scala-lang:scala-library:2.11.0',
+            'org.scala-lang:scala-swing:2.11.0-M7',
+            'com.github.nscala-time:nscala-time_2.11.0-M8:0.8.0'
+    testCompile 'junit:junit:4.11'
 }
 
 tasks.withType(ScalaCompile) {
-    configure(scalaCompileOptions.forkOptions) {
-        memoryMaximumSize = '1g'
-        jvmArgs = ['-XX:MaxPermSize=512m']
-    }
+    String elide = ''
+    if (System.getProperties().getProperty('build') != null)
+        elide = '-Xelide-below FINER'
+    scalaCompileOptions.fork = true
+    scalaCompileOptions.useCompileDaemon = true
+    scalaCompileOptions.additionalParameters = ['-target:jvm-1.7', '-Xdev', elide]
+    scalaCompileOptions.forkOptions.memoryMaximumSize = '768m'
+    scalaCompileOptions.forkOptions.jvmArgs += ['-XX:MaxPermSize=768m']
+}
+task run(type: JavaExec, dependsOn: classes) {
+    main = 'com.scala_game_of_life.Main'
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.runtime
 }
