@@ -20,3 +20,17 @@ tasks.withType(ScalaCompile) {
         jvmArgs = ['-XX:MaxPermSize=512m']
     }
 }
+
+task('push') {
+    doLast {
+        try {
+            Runtime.getRuntime().exec('git')
+        } catch (Throwable ignored) {
+            System.err.println('\n\n\nYou do NOT have git! Go get some!\n\n\n')
+            throw new StopExecutionException()
+        }
+        Runtime.getRuntime().exec 'git add -A'
+        Runtime.getRuntime().exec 'git commit -m\"$message\"'
+        Runtime.getRuntime().exec 'git push'
+    }
+}
