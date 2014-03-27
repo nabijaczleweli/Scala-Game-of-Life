@@ -21,3 +21,11 @@ Then, to get it do:<br />
 
 Then, to push back:<br />
 <code>git add -A<br />git commit -m&lt;&lt;YOUR COMMIT MESSAGE&gt;&gt;<br />git push</code>
+
+<h3>Who would be awesome to get:</h3>
+
+Scala UI designer/programmer.
+
+
+<br /><br /><br /><br /><br /><br /><br /><br />
+If you are using/distributing my work please let me know: nabijaczleweli@gmail.com, I just like to keep count.
