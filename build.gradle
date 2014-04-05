@@ -34,7 +34,6 @@ tasks.withType(ScalaCompile) {
         }
     }
 }
-
 task run(type: JavaExec, dependsOn: classes) {
     main = 'com.scala_game_of_life.Main'
     classpath sourceSets.main.runtimeClasspath
