@@ -1,4 +1,4 @@
-package com.nabijaczleweli.cgol.stuff
+package com.scala_game_of_life.stuff
 
 
 /** Cell enumness.
@@ -6,7 +6,7 @@ package com.nabijaczleweli.cgol.stuff
   * @author Jędrzej
   * @since  23.03.14
   */
-protected object Cell extends Enumeration {
+object Cell extends Enumeration {
 	type Cell = Value
 	val LIVE, DEAD = Value
 	final val rand = new scala.util.Random()
@@ -23,7 +23,21 @@ protected object Cell extends Enumeration {
 class Cell {
 	var state = Cell.getRandomized
 
+	def this(b: Boolean) = {
+		this
+		if(b)
+			state = Cell.LIVE
+		else
+			state = Cell.DEAD
+	}
+
 	/** Returns Cell.toString. */
 	override def toString =
 		state.toString
+
+	def bool =
+		state == Cell.LIVE
+
+	def int =
+		bool.asInstanceOf[Int]
 }
