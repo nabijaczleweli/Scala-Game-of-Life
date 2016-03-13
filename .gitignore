@@ -4,6 +4,7 @@
 !src
 !src/**
 !.gitignore
+!.travis.yml
 !*gradlew*
 !README.md
 !LICENSE
