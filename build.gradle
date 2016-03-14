@@ -14,8 +14,8 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.11.0',
-            'org.scala-lang:scala-swing:2.11.0-M7',
+    compile 'org.scala-lang:scala-library:2.11.7',
+            'org.scala-lang:scala-swing:2.11.7-M7',
             'com.github.nscala-time:nscala-time_2.11.0-M8:0.8.0'
     testCompile 'junit:junit:4.11'
 }
