@@ -1,18 +1,17 @@
 package com.scala_game_of_life.world
 
-import java.awt.Color
+import scala.swing.Color
+import scala.collection.mutable
 import com.scala_game_of_life.engine.registries.GameRegistry
 import java.lang.reflect.Field
-import scala.collection.mutable
+import java.awt.Color
 
-/** Overworld, as in Minecraft.
-  *
-  * @author Jędrzej
-  * @since  11.04.14
+/** @author Jędrzej
+  * @since  15.05.14
   */
 @SerialVersionUID(233223133)
-class WorldOver private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends World(() => {}) {
-	WorldOver
+class WorldNether private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends World(() => {}) {
+	WorldNether
 
 	def this(from: List[Chunk]) {
 		this(() => {})
@@ -27,14 +26,14 @@ class WorldOver private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends World(() => {})
 		this(List[Chunk]())
 
 	override def backgroundColor =
-		new Color(0, 0, 255, 64)
+		Color.red
 
 	override def toString() =
-		"Overworld"
+		"The Nether"
 }
 
-private object WorldOver {
-	GameRegistry.registerWorld(classOf[WorldOver], (_howmany: Int) => {
+private object WorldNether {
+	GameRegistry.registerWorld(classOf[WorldNether], (_howmany: Int) => {
 		import com.scala_game_of_life.engine.GameEngine._
 		val _chunks = {
 			var t: Field = null

@@ -1,12 +1,13 @@
 package com.scala_game_of_life.engine
 
 import java.awt._
+import java.util
 import com.scala_game_of_life.world.{IEntityAccess, ICellAccess}
 import net.lonning.loutput.ConsoleLOutput
 import com.scala_game_of_life.util.MathUtil
 import java.io.{File, FileInputStream, FileNotFoundException}
 import scala.swing.MainFrame
-import com.scala_game_of_life.engine.registries.{DisallowedSourcesRegistry, ScreenNameRegistry, MaxMetadataRegistry, GameRegistry}
+import com.scala_game_of_life.engine.registries._
 import com.scala_game_of_life.PublicResources.gameEngine
 import com.scala_game_of_life.engine.rendering._
 import com.scala_game_of_life.engine.save.{SaveProcessor, Saveable}
@@ -32,15 +33,15 @@ import net.lonning.Logger
 object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 	final         val screenWidth        = Toolkit.getDefaultToolkit.getScreenSize.getWidth.toInt
 	final         val screenHeight       = Toolkit.getDefaultToolkit.getScreenSize.getHeight.toInt
-	/** To resemble 5x5 cell on 1600x900 screen. To be replaced with settings. */
+	/** To resemble 5x5 cell on 1600x900 screen. */
 	final         val cellWidth          = screenWidth / 320
-	/** To resemble 5x5 cell on 1600x900 screen. To be replaced with settings. */
+	/** To resemble 5x5 cell on 1600x900 screen. */
 	final         val cellHeight         = screenHeight / 180
 	final         val cellsInXAxis       = 200
 	final         val cellsInYAxis       = 150
 	final         val desiredSize        = new Dimension(cellWidth * cellsInXAxis, cellHeight * cellsInYAxis)
-	private final val settingsPauseTexts = Vector[String]("Save world", "Load world", "Tick %%% time&&&.", "Exit")
-	private final var choosesaveTexts    = Vector[String]("Name: %%%.")
+	private final val settingsPauseTexts = util.Vector[String]("Save world", "Load world", "Tick %%% time&&&.", "Change world: %%%.", "Exit")
+	private final var choosesaveTexts    = util.Vector[String]("Name: %%%.")
 	private final val savesDir           = new File(Saveable.rootPath)
 	protected     var frame: MainFrame   = null
 	/** Belongs to [[com.scala_game_of_life.Main]]. */
@@ -85,23 +86,20 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 		val numberMetrics = graph getFontMetrics numberFont
 		val privateExtendedInfo = extendedInfo.asInstanceOf[SettingsPauseData]
 		def normalizedString =
-			if(privateExtendedInfo.value.length != 0)
-				privateExtendedInfo.value
-			else
-				"0"
+			metadata match {
+				case 2 =>
+					if(privateExtendedInfo.value.length != 0)
+						privateExtendedInfo.value
+					else
+						"0"
+				case 3 =>
+					privateExtendedInfo.value
+				case _ =>
+					privateExtendedInfo.value
+			}
 		def normalizedInt =
 			privateExtendedInfo.value.length max 1
-		keyboardMode = metadata == 2
-		privateExtendedInfo.value = privateExtendedInfo.value.replaceAll("[^0123456789]", "")
-		if("[123456789]".r.findAllMatchIn(privateExtendedInfo.value).isEmpty)
-			privateExtendedInfo.value = ""
-		// Normalize `privateExtendedInfo.value`
-		try {
-			Integer valueOf normalizedString
-		} catch {
-			case _: NumberFormatException =>
-				privateExtendedInfo.value = Int.MaxValue.toString
-		}
+		keyboardMode = metadata == 2 || metadata == 3
 		extendedInfo.value = privateExtendedInfo.value
 		graph setColor Color.red
 		graph.fillRect(0, 0, width, height)
@@ -112,31 +110,62 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 		}
 		graph setColor Color.white
 		graph setFont settingsFont
-		for(idx <- 0 until settingsPauseTexts.length) {
-			val replaced = settingsPauseTexts(idx).replaceAll("%%%", normalizedString).replaceAll("&&&", if(Integer.valueOf(normalizedString) > 1 || Integer.valueOf(normalizedString) == 0) "s" else "")
-			if(replaced == settingsPauseTexts(idx))
-				graph.drawString(replaced, (width * .5f) - (textMetrics.stringWidth(replaced) / 2), (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
-			else {
-				val split = replaced split s"[0123456789]{$normalizedInt,$normalizedInt}"
-				graph.drawString(split(0),
-				                 ((width * .5f) - (numberMetrics.stringWidth(normalizedString) / 2)) - textMetrics.stringWidth(split(0)),
-				                 (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
-				graph setFont numberFont
-				graph.drawString(normalizedString,
-				                 (width * .5f) - (numberMetrics.stringWidth(normalizedString) / 2),
-				                 (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
-				graph setFont settingsFont
-				graph.drawString(split(1),
-				                 ((width * .5f) - (numberMetrics.stringWidth(normalizedString) / 2)) + numberMetrics.stringWidth(normalizedString),
-				                 (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
-			}
+		metadata match {
+			case 2 =>
+				privateExtendedInfo.value = privateExtendedInfo.value.replaceAll("[^0123456789]", "")
+				if("[123456789]".r.findAllMatchIn(privateExtendedInfo.value).isEmpty)
+					privateExtendedInfo.value = ""
+				// Normalize `privateExtendedInfo.value`
+				try {
+					Integer valueOf normalizedString
+				} catch {
+					case _: NumberFormatException =>
+						privateExtendedInfo.value = Int.MaxValue.toString
+				}
+				for(idx <- 0 until settingsPauseTexts.length) {
+					idx match {
+						case 2 =>
+							val replaced = settingsPauseTexts(idx).replaceAll("%%%", normalizedString).replaceAll("&&&", if(Integer.valueOf(normalizedString) > 1 || Integer.valueOf(normalizedString) == 0) "s" else "")
+							val split = replaced split s"[0123456789]{$normalizedInt,$normalizedInt}"
+							graph.drawString(split(0),
+							                 ((width * .5f) - (numberMetrics.stringWidth(normalizedString) / 2)) - textMetrics.stringWidth(split(0)),
+							                 (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
+							graph setFont numberFont
+							graph.drawString(normalizedString,
+							                 (width * .5f) - (numberMetrics.stringWidth(normalizedString) / 2),
+							                 (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
+							graph setFont settingsFont
+							graph.drawString(split(1),
+							                 ((width * .5f) - (numberMetrics.stringWidth(normalizedString) / 2)) + numberMetrics.stringWidth(normalizedString),
+							                 (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
+						case _ =>
+							val replaced = settingsPauseTexts(idx).replaceAll("%%%", "").replaceAll("&&&", "")
+							graph.drawString(replaced, (width * .5f) - (textMetrics.stringWidth(replaced) / 2), (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
+					}
+				}
+				val replacedText = settingsPauseTexts(metadata).replaceAll("%%%", normalizedString).replaceAll("&&&", if(Integer.valueOf(normalizedString) > 1 || Integer.valueOf(normalizedString) == 0) "s" else "")
+				graph.drawString("#", (width * .5f) - (textMetrics.stringWidth(replacedText.replaceAll("[0123456789]+", "")).toFloat * .5f) - (textMetrics.charWidth('#').toFloat * 2f).toInt - (numberMetrics.stringWidth(normalizedString).toFloat * (if(replacedText == settingsPauseTexts(metadata)) 0f else .5f)).toInt, (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the left side
+				graph.drawString("#", (width * .5f) + (textMetrics.stringWidth(replacedText.replaceAll("[0123456789]+", "")).toFloat * .5f) + textMetrics.charWidth('#') + (numberMetrics.stringWidth(normalizedString).toFloat * (if(replacedText == settingsPauseTexts(metadata)) 0f else .5f)).toInt, (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the right side
+			case 3 =>
+				for(idx <- 0 until settingsPauseTexts.length) {
+					val replaced = settingsPauseTexts(idx).replaceAll("%%%", if(idx == 3) normalizedString else "0").replaceAll("&&&", "s")
+					graph.drawString(replaced, (width * .5f) - (textMetrics.stringWidth(replaced) / 2), (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
+				}
+				val replacedText = settingsPauseTexts(metadata).replaceAll("%%%", normalizedString).replaceAll("&&&", "s")
+				graph.drawString("#", (width * .5f) - (textMetrics.stringWidth(replacedText).toFloat * .5f) - (textMetrics.charWidth('#').toFloat * 2f).toInt, (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the left side
+				graph.drawString("#", (width * .5f) + (textMetrics.stringWidth(replacedText).toFloat * .5f) + textMetrics.charWidth('#'), (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the right side
+			case _ =>
+				for(idx <- 0 until settingsPauseTexts.length) {
+					val replaced = settingsPauseTexts(idx).replaceAll("%%%", if(idx == 2) "0" else "").replaceAll("&&&", "s")
+					graph.drawString(replaced, (width * .5f) - (textMetrics.stringWidth(replaced) / 2), (height / settingsPauseTexts.length) * (idx.toFloat + .5f))
+				}
+				val replacedText = settingsPauseTexts(metadata).replaceAll("%%%", "").replaceAll("&&&", "s")
+				graph.drawString("#", (width * .5f) - (textMetrics.stringWidth(replacedText).toFloat * .5f) - (textMetrics.charWidth('#').toFloat * 2f).toInt, (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the left side
+				graph.drawString("#", (width * .5f) + (textMetrics.stringWidth(replacedText).toFloat * .5f) + textMetrics.charWidth('#'), (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the right side
 		}
-		val replacedText = settingsPauseTexts(metadata).replaceAll("%%%", normalizedString).replaceAll("&&&", if(Integer.valueOf(normalizedString) > 1 || Integer.valueOf(normalizedString) == 0) "s" else "")
-		graph.drawString("#", (width * .5f) - (textMetrics.stringWidth(replacedText.replaceAll("[0123456789]+", "")).toFloat * .5f) - (textMetrics.charWidth('#').toFloat * 2f).toInt - (numberMetrics.stringWidth(normalizedString).toFloat * (if(replacedText == settingsPauseTexts(metadata)) 0f else .5f)).toInt, (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the left side
-		graph.drawString("#", (width * .5f) + (textMetrics.stringWidth(replacedText.replaceAll("[0123456789]+", "")).toFloat * .5f) + textMetrics.charWidth('#') + (numberMetrics.stringWidth(normalizedString).toFloat * (if(replacedText == settingsPauseTexts(metadata)) 0f else .5f)).toInt, (height / settingsPauseTexts.length) * (metadata.toFloat + .5f)) // Draws selection pointer at the right side
 	}
 
-	/** Only jist with it is that it renders in about 125-156ms. Is it a problem? */
+	/** Only gist with it is that it renders in about 125-156ms. Is it a problem? */
 	def drawChooseSave() {
 		import RenderInfoHolder._
 		assume(extendedInfo.isInstanceOf[ChooseSaveData])
@@ -195,11 +224,19 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 						                            gameEngine ! LoadWorld()
 					                            case 2 =>
 						                            gameEngine ! TickCells(Integer valueOf (if(extInfo.value.length != 0) extInfo.value else "0"))
+					                            case 3 if WorldNameRegistry.get(extInfo.value).isEmpty =>
+						                            info("Cannot find world with such a name!")
 					                            case 3 =>
+						                            GameEngine.world.particles foreach {_.setDead()}
+						                            GameEngine.world.entities foreach {_.setDead()}
+						                            GameEngine.world.player.setDead()
+						                            GameEngine.world.collectGarbage()
+						                            GameEngine.world = SaveProcessor.load[ICellAccess with IEntityAccess](WorldNameRegistry.get(extInfo.value).get.newInstance())
+					                            case 4 =>
 						                            Main.saveWorld()
 						                            frame.closeOperation()
 				                            }
-			                            }, 3, "Settings", MetadataChangeSource.Nothing :: Nil, settingspause)
+			                            }, 4, "Settings", MetadataChangeSource.Nothing :: Nil, settingspause)
 			GameRegistry.registerScreen({
 				                            val extInfo = extendedInfo.asInstanceOf[ChooseSaveData]
 				                            var doSwitch = false

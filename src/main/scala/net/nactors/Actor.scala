@@ -3,7 +3,7 @@ package net.nactors
 import net.nactors.process.{ActorsHome, ActorThread, Actors}
 import net.lonning.loutput.{LogOutput, ConsoleLOutput}
 
-/** Extend for being able to act in a spectable.
+/** Extend for being able to act in a spectacle.
   *
   * @author Jędrzej
   * @since  22.04.14

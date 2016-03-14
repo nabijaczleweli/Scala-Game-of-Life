@@ -3,7 +3,7 @@ package net.lonning.loutput
 import scala.annotation.elidable
 import scala.annotation.elidable._
 
-/** All subclasses <b>shall</b> <b>interhit</b> annotations and/or be <b>cast</b> to this trait.
+/** All subclasses <b>shall</b> <b>inherit</b> annotations.
   *
   * @author Jędrzej
   * @since  16.04.14
@@ -44,9 +44,9 @@ trait LogOutput {
 	@inline
 	def log(s: String, throwable: Throwable): Boolean = {
 		val st = throwable.getStackTrace
-		log(s"$s${throwable.getClass.getSimpleName }: ${throwable.getMessage }")
+		log(s"$s${throwable.getClass.getSimpleName}: ${throwable.getMessage}")
 		for(i <- 0 until st.length)
-			log(s"\t${st(i) }")
+			log(s"\t${st(i)}")
 		true
 	}
 
@@ -85,9 +85,9 @@ trait LogOutput {
 	@inline
 	def debug(s: String, throwable: Throwable): Boolean = {
 		val st = throwable.getStackTrace
-		debug(s"$s${throwable.getClass.getSimpleName }: ${throwable.getMessage }")
+		debug(s"$s${throwable.getClass.getSimpleName}: ${throwable.getMessage}")
 		for(i <- 0 until st.length)
-			debug(s"\t${st(i) }")
+			debug(s"\t${st(i)}")
 		true
 	}
 
@@ -126,9 +126,9 @@ trait LogOutput {
 	@inline
 	def info(s: String, throwable: Throwable): Boolean = {
 		val st = throwable.getStackTrace
-		info(s"$s${throwable.getClass.getSimpleName }: ${throwable.getMessage }")
+		info(s"$s${throwable.getClass.getSimpleName}: ${throwable.getMessage}")
 		for(i <- 0 until st.length)
-			info(s"\t${st(i) }")
+			info(s"\t${st(i)}")
 		true
 	}
 
@@ -167,9 +167,9 @@ trait LogOutput {
 	@inline
 	def warn(s: String, throwable: Throwable): Boolean = {
 		val st = throwable.getStackTrace
-		warn(s"$s${throwable.getClass.getSimpleName }: ${throwable.getMessage }")
+		warn(s"$s${throwable.getClass.getSimpleName}: ${throwable.getMessage}")
 		for(i <- 0 until st.length)
-			warn(s"\t${st(i) }")
+			warn(s"\t${st(i)}")
 		true
 	}
 
@@ -208,9 +208,9 @@ trait LogOutput {
 	@inline
 	def severe(s: String, throwable: Throwable): Boolean = {
 		val st = throwable.getStackTrace
-		severe(s"$s${throwable.getClass.getSimpleName }: ${throwable.getMessage }")
+		severe(s"$s${throwable.getClass.getSimpleName}: ${throwable.getMessage}")
 		for(i <- 0 until st.length)
-			severe(s"\t${st(i) }")
+			severe(s"\t${st(i)}")
 		true
 	}
 
@@ -245,9 +245,9 @@ trait LogOutput {
 	@inline
 	def ERROR(s: String, throwable: Throwable): Boolean = {
 		val st = throwable.getStackTrace
-		ERROR(s"$s${throwable.getClass.getSimpleName }: ${throwable.getMessage }")
+		ERROR(s"$s${throwable.getClass.getSimpleName}: ${throwable.getMessage}")
 		for(i <- 0 until st.length)
-			ERROR(s"\t${st(i) }")
+			ERROR(s"\t${st(i)}")
 		true
 	}
 }

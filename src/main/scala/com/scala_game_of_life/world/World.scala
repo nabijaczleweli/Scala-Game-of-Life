@@ -17,6 +17,7 @@ import scala.language.reflectiveCalls
   */
 abstract class World protected(`_ _ _ _ _ _ _ _ _`: () => Unit) extends ICellAccess with IEntityAccess {
 	init(new WeakReference[ICellAccess](this))
+	World
 	protected       var _chunks       = Vector[Chunk]()
 	final protected val airCell: Cell = 0.toCell
 	override        var rules         = new WorldRules
@@ -147,4 +148,9 @@ abstract class World protected(`_ _ _ _ _ _ _ _ _`: () => Unit) extends ICellAcc
 		}
 		_chunks(ci).cellState(x, y, newState)
 	}
+}
+
+object World {
+	WorldNether
+	WorldOver
 }

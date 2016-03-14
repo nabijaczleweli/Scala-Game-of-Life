@@ -623,6 +623,8 @@ abstract class Entity private() extends Saveable {
 		onEntityUpdate()
 		processMotion()
 	}
+
+	def onEntityRemoval(): Unit = {}
 }
 
 object Entity {

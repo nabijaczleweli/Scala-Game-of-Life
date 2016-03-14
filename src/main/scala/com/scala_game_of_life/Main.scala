@@ -2,14 +2,14 @@ package com.scala_game_of_life
 
 import scala.swing._
 import scala.swing.event.Key
-import com.scala_game_of_life.world.{IEntityAccess, WorldOver, ICellAccess}
+import com.scala_game_of_life.world.{IEntityAccess, ICellAccess}
 import scala.swing.Dimension
 import net.lonning.loutput.ConsoleLOutput
 import scala.annotation.elidable
 import scala.annotation.elidable._
 import net.nactors.ActorsHomeBuilder
 import com.scala_game_of_life.engine._
-import com.scala_game_of_life.engine.registries.ScreenNameRegistry
+import com.scala_game_of_life.engine.registries.{WorldNameRegistry, ScreenNameRegistry}
 import com.scala_game_of_life.util.NumberUtil
 import com.scala_game_of_life.engine.rendering.{RepainterThread, NoScreenData, SettingsPauseData, ExtendedScreenData}
 import com.scala_game_of_life.engine.GameRenderer._
@@ -121,13 +121,13 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 				case KeyPressed(_, Key.T, 0, _) =>
 					if((drawInfo & maingame) != 0)
 						gameEngine ! TickCells(1)
-				case KeyPressed(_, Key.N, Key.Modifier.Control, _) =>
-					if((drawInfo & maingame) != 0) {
-						world = new WorldOver().asInstanceOf[ICellAccess with IEntityAccess]
-						GameRenderer synchronized {
-							GameRenderer.notifyAll()
-						}
-					}
+				case KeyPressed(_, Key.N, Key.Modifier.Control, _) if (drawInfo & maingame) != 0 =>
+					world.particles foreach {_.setDead()}
+					world.entities foreach {_.setDead()}
+					world.player.setDead()
+					world.collectGarbage()
+					System.gc()
+					world = WorldNameRegistry.get(s"$world").get.newInstance
 				case KeyPressed(_, Key.R, Key.Modifier.Control, _) =>
 					GameRenderer synchronized {
 						GameRenderer.notifyAll()
@@ -171,7 +171,7 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 				case KeyPressed(_, Key.Enter, 0, _) =>
 					gameEngine ! EnterTapped()
 				case KeyTyped(_, keyC, mods, _) if keyboardMode && (keyC != Key.Enter.id || keyC == Key.Escape.id) =>
-					assume(extendedInfo.isInstanceOf[ExtendedScreenData[String]])
+					//assume(extendedInfo.isInstanceOf[ExtendedScreenData[String]])
 					val saveData = extendedInfo.asInstanceOf[ExtendedScreenData[String]]
 					if(keyC == Key.BackSpace.id && mods == 0)
 						if(saveData.value.length > 0)

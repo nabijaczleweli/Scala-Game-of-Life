@@ -8,6 +8,7 @@ import net.nactors.process.{ActorThread, ActorsHome}
   * @since  22.04.14
   */
 object ActorsHomeBuilder {
+	/** Applying yields Actor's Home full of alive actors ready for a spectacle. */
 	@SafeVarargs
 	def apply(name: String, actrs: Actor*): ActorsHome = {
 		val ah = new ActorsHome(name)

@@ -12,7 +12,7 @@ import com.scala_game_of_life.entity.AxisAlignedBB
   */
 trait IEntityAccess {
 	final def init(world: Reference[ICellAccess]) {
-		player = new EntityPlayer(world, new WeakReference[IEntityAccess](this), GameRenderer.cellsInXAxis / 2, GameRenderer.cellsInYAxis / 2)
+		player = new EntityPlayer(world, new WeakReference[IEntityAccess](this), GameRenderer.cellsInXAxis / 2 * 10000, GameRenderer.cellsInYAxis / 2 * 10000)
 	}
 
 	var player: EntityPlayer = null
@@ -44,11 +44,32 @@ trait IEntityAccess {
 		entities +:= entity
 
 	def removeEntity(entity: Entity) =
-		entities = entities filterNot {ent => ent.getUniqueID.equals(entity.getUniqueID)}
+		entities = entities filterNot {ent =>
+			val flag = ent.getUniqueID equals entity.getUniqueID
+			if(flag)
+				ent.onEntityRemoval()
+			flag
+		}
 
 	def collectGarbage() {
-		particles = particles filterNot {part => part == null || !part.isEntityAlive}
-		entities = entities filterNot {ent => ent == null || !ent.isEntityAlive}
+		particles = particles filterNot {part =>
+			val flag = part == null || !part.isEntityAlive
+			if(flag)
+				part.onEntityRemoval()
+			flag
+		}
+		entities = entities filterNot {ent =>
+			val flag = ent == null || !ent.isEntityAlive
+			if(flag)
+				ent.onEntityRemoval()
+			flag
+		}
+		player = if(player.isEntityAlive)
+			player
+		else {
+			player.onEntityRemoval()
+			null
+		}
 	}
 
 	def hasEntity(entity: Entity) =
@@ -57,5 +78,7 @@ trait IEntityAccess {
 				particles contains value
 			case value: Entity =>
 				entities contains value
+			case _ =>
+				throw new IllegalStateException("Who put it here?")
 		}
 }

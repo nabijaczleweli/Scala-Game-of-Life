@@ -6,6 +6,7 @@ import com.scala_game_of_life.world.ICellAccess
 import java.awt.Color
 import com.scala_game_of_life.cell.CellAction.CellAction
 import com.scala_game_of_life.entity.Entity
+import com.scala_game_of_life.util.ColorRainbow
 
 /** Stored: Cell:      <tt>[[Cell]]</tt><br />
   * Key:    Cell's ID: <tt>[[Short]]</tt>
@@ -53,9 +54,11 @@ object CellRegistry extends Registry[Cell, Short] {
 		}
 	})
 	add(4.toShort, new Cell(Material.notAir) {
+		private val rain = new ColorRainbow(128, 128, 128)
+
 		override def draw(onScreenX: Int, onScreenY: Int, worldY: Long, worldX: Long, world: ICellAccess) {
 			import com.scala_game_of_life.engine.GameRenderer._
-			graph setColor Color.black
+			graph setColor rain
 			graph.fillRect(onScreenX, onScreenY, cellWidth, cellHeight)
 		}
 
@@ -78,7 +81,7 @@ object CellRegistry extends Registry[Cell, Short] {
 		__celltoid get key
 
 	def get = {
-		if(rand.nextBoolean() && rand.nextBoolean() && rand.nextBoolean()) // Low chance of possibly getting airBlocks
+		if(rand.nextBoolean() && rand.nextBoolean() && rand.nextBoolean()) // Low chance of possibly getting air cells
 			rand nextInt __idtocell.size
 		else {
 			rand.nextInt(length - 1) + 1

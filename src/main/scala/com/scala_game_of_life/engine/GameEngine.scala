@@ -100,7 +100,8 @@ object EntityGameEngine extends Actor("S-EntityEngine", TickEntities() :: Nil) {
 		case TickEntities() =>
 			for(ent <- world.entities)
 				ent.tick()
-			world.player.tick()
+			if(world.player != null && world.player.isEntityAlive)
+				world.player.tick()
 			for(ent <- world.particles)
 				ent.tick()
 			rand synchronized {

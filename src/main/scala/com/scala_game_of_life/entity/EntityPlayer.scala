@@ -10,7 +10,7 @@ import com.scala_game_of_life.engine.GameEngine
   */
 class EntityPlayer(par1World: Reference[ICellAccess], par2World: Reference[IEntityAccess], _posX: Float, _posY: Float) extends Entity(par1World, par2World, _posX, _posY) {
 	override protected def entityInit() {
-		step = .1f
+		step = .18f
 	}
 
 	@deprecated("Do not use this method - use `draw()` instead.", "0.9.8")
