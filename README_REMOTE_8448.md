@@ -11,8 +11,6 @@ If you have gradle use <code>gradle</code>. If not, use <code>gradlew.bat</code>
 Basic command is <code>gradle idea</code>.
 Woot. Should be set up.
 You might also want to import Gradle Project, as IDEA suggests.
-
-
 How to contribute
 =======
 
