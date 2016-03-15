@@ -2,18 +2,17 @@ package xyz.nabijaczleweli.scala_game_of_life.engine
 
 import java.awt._
 import java.io.{File, FileInputStream, FileNotFoundException}
-import java.util
+
 import xyz.nabijaczleweli.lonning.Logger
 import xyz.nabijaczleweli.lonning.loutput.ConsoleLOutput
-import xyz.nabijaczleweli.scala_game_of_life.{PublicResources, Main}
-import PublicResources.gameEngine
 import xyz.nabijaczleweli.scala_game_of_life.Main
+import xyz.nabijaczleweli.scala_game_of_life.PublicResources.gameEngine
 import xyz.nabijaczleweli.scala_game_of_life.cell.Material
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries._
 import xyz.nabijaczleweli.scala_game_of_life.engine.rendering._
 import xyz.nabijaczleweli.scala_game_of_life.engine.save.{SaveProcessor, Saveable}
 import xyz.nabijaczleweli.scala_game_of_life.util.MathUtil
-import xyz.nabijaczleweli.scala_game_of_life.world.IEntityAccess
+import xyz.nabijaczleweli.scala_game_of_life.world.{ICellAccess, IEntityAccess}
 
 import scala.swing.MainFrame
 
@@ -41,8 +40,8 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 	final         val cellsInXAxis       = 200
 	final         val cellsInYAxis       = 150
 	final         val desiredSize        = new Dimension(cellWidth * cellsInXAxis, cellHeight * cellsInYAxis)
-	private final val settingsPauseTexts = util.Vector[String]("Save world", "Load world", "Tick %%% time&&&.", "Change world: %%%.", "Exit")
-	private final var choosesaveTexts    = util.Vector[String]("Name: %%%.")
+	private final val settingsPauseTexts = Vector[String]("Save world", "Load world", "Tick %%% time&&&.", "Change world: %%%.", "Exit")
+	private final var choosesaveTexts    = Vector[String]("Name: %%%.")
 	private final val savesDir           = new File(Saveable.rootPath)
 	protected     var frame: MainFrame   = null
 	/** Belongs to [[Main]]. */
@@ -50,11 +49,11 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 	var graph          : Graphics2D      = null
 
 	def frameSize =
-		frame.contents(0).size
+		frame.contents.head.size
 
 	def drawCellsInWorld(world: ICellAccess, topLeftX: Int, topLeftY: Int) {
 		graph setColor world.backgroundColor
-		graph.fillRect(0, 0, frame.contents(0).size.width, frame.contents(0).size.height)
+		graph.fillRect(0, 0, frame.contents.head.size.width, frame.contents.head.size.height)
 		for(xpos <- 0 until cellsInXAxis; ypos <- 0 until cellsInYAxis) {
 			val c = world.cellAtCoords(xpos + topLeftX, ypos + topLeftY, create = true)
 			if(c.material != Material.air)
@@ -177,8 +176,8 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 			files.remove(GameEngine.rand nextInt files.length)
 		choosesaveTexts = (for(f <- files) yield f.getName) ++: choosesaveTexts.splitAt(choosesaveTexts.size - 1)._2
 		val privateExtendedInfo = extendedInfo.asInstanceOf[ChooseSaveData]
-		val height = frame.contents(0).size.height
-		val width = frame.contents(0).size.width
+		val height = frame.contents.head.size.height
+		val width = frame.contents.head.size.width
 		val metrics = graph getFontMetrics choosesaveFont
 		keyboardMode = metadata == choosesaveTexts.length - 1
 		graph setColor Color.red
@@ -197,7 +196,7 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 		}
 		graph setFont choosesaveFont
 		graph setColor Color.white
-		for(idx <- 0 until choosesaveTexts.length) {
+		for(idx <- choosesaveTexts.indices) {
 			val replacedText = choosesaveTexts(idx).replaceAll("%%%", privateExtendedInfo.value)
 			graph.drawString(replacedText, (width * .5f) - (metrics.stringWidth(replacedText) / 2), (height / choosesaveTexts.length) * (idx.toFloat + .5f))
 		}
@@ -280,6 +279,7 @@ object GameRenderer extends ConsoleLOutput("S-GameRenderer") {
 			drawInfo |= choosesave
 			extendedInfo = new ChooseSaveData().asInstanceOf[ExtendedScreenData[Any]]
 			keyboardMode = true
+			//noinspection LoopVariableNotUpdated
 			while(frame == null)
 				Thread sleep 5
 			screenRepainter = new RepainterThread(132) // 7.(57)FPS looks cool.

@@ -11,7 +11,6 @@ import common.ThingsForTests.testCellID
   * @since  03.04.14
   */
 class Counts {
-
 	@Test
 	def `new Chunk(clean array of array of Cell).count == 0`() {
 		val c = new Chunk({

@@ -2,8 +2,9 @@ package xyz.nabijaczleweli.scala_game_of_life.engine.save
 
 import java.io._
 
-
 import xyz.nabijaczleweli.lonning.loutput.ConsoleLOutput
+import Saveable._
+import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine.nameOfSave
 
 import scala.annotation.elidable
 import scala.annotation.elidable._

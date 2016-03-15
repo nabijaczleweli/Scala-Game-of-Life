@@ -128,5 +128,4 @@ class AxisAlignedBB(private val _minX: Float, private val _minY: Float, private 
 		def getAABB(parminX: Float, parminY: Float, parmaxX: Float, parmaxY: Float) =
 			new AxisAlignedBB(parminX, parminY, parmaxX, parmaxY)
 	}
-
 }

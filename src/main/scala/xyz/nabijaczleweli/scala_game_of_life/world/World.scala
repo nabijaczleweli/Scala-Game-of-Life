@@ -1,6 +1,7 @@
 package xyz.nabijaczleweli.scala_game_of_life.world
 
 import xyz.nabijaczleweli.scala_game_of_life.cell.Cell
+import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine
 import xyz.nabijaczleweli.scala_game_of_life.util.CellConv._
 import xyz.nabijaczleweli.scala_game_of_life.util.MathUtil
 

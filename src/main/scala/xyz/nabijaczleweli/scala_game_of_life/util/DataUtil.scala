@@ -8,7 +8,7 @@ import scala.reflect.ClassTag
 object DataUtil {
 	final def fold[stored: ClassTag](toFold: Seq[stored], indexToFoldAt: Int): Array[Array[stored]] = {
 		val resultArrArr = Array.ofDim[stored](MathUtil.floor(toFold.size, indexToFoldAt + 1), indexToFoldAt + 1)
-		for(idx <- 0 until toFold.size)
+		for(idx <- toFold.indices)
 			resultArrArr(MathUtil.floor(idx, indexToFoldAt + 1))(idx % (indexToFoldAt + 1)) = toFold(idx)
 		resultArrArr
 	}

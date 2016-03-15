@@ -2,17 +2,18 @@ package xyz.nabijaczleweli.scala_game_of_life
 
 import java.io.File
 import java.lang.reflect.Field
+
 import xyz.nabijaczleweli.lonning.Logger
 import xyz.nabijaczleweli.lonning.loutput.ConsoleLOutput
 import xyz.nabijaczleweli.nactors.ActorsHomeBuilder
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameRenderer.RenderInfoHolder._
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameRenderer._
+import xyz.nabijaczleweli.scala_game_of_life.engine._
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.{ScreenNameRegistry, WorldNameRegistry}
 import xyz.nabijaczleweli.scala_game_of_life.engine.rendering.{ExtendedScreenData, NoScreenData, RepainterThread, SettingsPauseData}
 import xyz.nabijaczleweli.scala_game_of_life.engine.save.{SaveProcessor, Saveable}
-import xyz.nabijaczleweli.scala_game_of_life.engine.{GameRenderer, GameRendererResources}
 import xyz.nabijaczleweli.scala_game_of_life.util.NumberUtil
-import xyz.nabijaczleweli.scala_game_of_life.world.IEntityAccess
+import xyz.nabijaczleweli.scala_game_of_life.world.{ICellAccess, IEntityAccess}
 
 import scala.annotation.elidable
 import scala.annotation.elidable._
@@ -34,11 +35,11 @@ import scala.swing.{Dimension, _}
   * @since  22.03.14
   */
 object Main extends ConsoleLOutput("S-Main") with Reactor {
-
 	import MainResources._
+	import PublicResources._
 
 	def startup(args: Array[String]) {
-		GameRendererResources
+		GameRendererResources.toString
 		var frame: MainFrame = null
 		var frameField: Field = null
 		val opcodes = mutable.Queue[() => Unit](() => {
@@ -46,8 +47,8 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 		}, () => {
 			frame = top
 		}, () => {
-			if(frame.contents(0).size != desiredSize)
-				frame.minimumSize = new Dimension(frame.minimumSize.width + (desiredSize.width - frame.contents(0).size.width), frame.minimumSize.height + (desiredSize.height - frame.contents(0).size.height))
+			if(frame.contents.head.size != desiredSize)
+				frame.minimumSize = new Dimension(frame.minimumSize.width + (desiredSize.width - frame.contents.head.size.width), frame.minimumSize.height + (desiredSize.height - frame.contents(0).size.height))
 		}, () => {
 			frame = frame.pack()
 		}, () => {
@@ -55,14 +56,14 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 			frameField setAccessible true
 		}, () => {
 			frame.title = s"S-GOL:${(ScreenNameRegistry get GameRenderer.RenderInfoHolder.drawInfo).get}"
-			frame.contents(0).requestFocus()
+			frame.contents.head.requestFocus()
 			frame.visible = true
 			frameField.set(GameRenderer, frame)
 		})
 		for((s, w) <- helloStrings) {
 			println(s)
 			val t = System.currentTimeMillis
-			if(!opcodes.isEmpty)
+			if(opcodes.nonEmpty)
 				opcodes.dequeue()()
 			val ta = System.currentTimeMillis
 			Thread sleep 0L.max(w - ta + t)
@@ -72,7 +73,7 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 	}
 
 	def saveWorld() =
-		SaveProcessor.save[ICellAccess with IEntityAccess](world)
+		SaveProcessor.save[ICellAccess with IEntityAccess](GameEngine.world)
 
 	/** From SimpleSwingApplication. */
 	def top = new MainFrame {
@@ -91,10 +92,10 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 				val t = System.currentTimeMillis
 				drawInfo & 0xff match {
 					case `maingame` =>
-						val topLeftX = Math.floor(world.player.posX) - (GameRenderer.cellsInXAxis / 2)
-						val topLeftY = Math.floor(world.player.posY) - (GameRenderer.cellsInYAxis / 2)
-						GameRenderer.drawCellsInWorld(world, topLeftX.toInt, topLeftY.toInt)
-						GameRenderer.drawEntitiesInWorld(world, topLeftX.toFloat, topLeftY.toFloat)
+						val topLeftX = Math.floor(GameEngine.world.player.posX) - (GameRenderer.cellsInXAxis / 2)
+						val topLeftY = Math.floor(GameEngine.world.player.posY) - (GameRenderer.cellsInYAxis / 2)
+						GameRenderer.drawCellsInWorld(GameEngine.world, topLeftX.toInt, topLeftY.toInt)
+						GameRenderer.drawEntitiesInWorld(GameEngine.world, topLeftX.toFloat, topLeftY.toFloat)
 					case `settingspause` =>
 						GameRenderer.drawSettings()
 					case `choosesave` =>
@@ -113,17 +114,17 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 			listenTo(keys)
 			reactions += {
 				case KeyPressed(_, Key.H, Key.Modifier.Shift, _) =>
-					world.player setInvisible !world.player.isInvisible
+					GameEngine.world.player setInvisible !GameEngine.world.player.isInvisible
 				case KeyPressed(_, Key.T, 0, _) =>
 					if((drawInfo & maingame) != 0)
 						gameEngine ! TickCells(1)
 				case KeyPressed(_, Key.N, Key.Modifier.Control, _) if (drawInfo & maingame) != 0 =>
-					world.particles foreach {_.setDead()}
-					world.entities foreach {_.setDead()}
-					world.player.setDead()
-					world.collectGarbage()
+					GameEngine.world.particles foreach {_.setDead()}
+					GameEngine.world.entities foreach {_.setDead()}
+					GameEngine.world.player.setDead()
+					GameEngine.world.collectGarbage()
 					System.gc()
-					world = WorldNameRegistry.get(s"$world").get.newInstance
+					GameEngine.world = WorldNameRegistry.get(GameEngine.world.toString).get.newInstance.asInstanceOf[ICellAccess with IEntityAccess]
 				case KeyPressed(_, Key.R, Key.Modifier.Control, _) =>
 					GameRenderer synchronized {
 						GameRenderer.notifyAll()
@@ -152,18 +153,18 @@ object Main extends ConsoleLOutput("S-Main") with Reactor {
 					keyboardMode = false
 				case KeyPressed(_, Key.Down, 0, _) =>
 					if((drawInfo & maingame) != 0)
-						world.player.addVelocity(0, .3f)
+						GameEngine.world.player.addVelocity(0, .3f)
 					else if(isMetadataChangeAllowed(inc = true, MetadataChangeSource.Keyboard))
 						metadata += 1
 				case KeyPressed(_, Key.Up, 0, _) =>
 					if((drawInfo & maingame) != 0)
-						world.player.addVelocity(0, -.3f)
+						GameEngine.world.player.addVelocity(0, -.3f)
 					else if(isMetadataChangeAllowed(inc = false, MetadataChangeSource.Keyboard))
 						metadata -= 1
 				case KeyPressed(_, Key.Right, 0, _) =>
-					world.player.addVelocity(.3f, 0)
+					GameEngine.world.player.addVelocity(.3f, 0)
 				case KeyPressed(_, Key.Left, 0, _) =>
-					world.player.addVelocity(-.3f, 0)
+					GameEngine.world.player.addVelocity(-.3f, 0)
 				case KeyPressed(_, Key.Enter, 0, _) =>
 					gameEngine ! EnterTapped()
 				case KeyTyped(_, keyC, mods, _) if keyboardMode && (keyC != Key.Enter.id || keyC == Key.Escape.id) =>

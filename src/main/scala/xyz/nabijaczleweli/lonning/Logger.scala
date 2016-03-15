@@ -38,7 +38,7 @@ trait Logger[T <: LogOutput] {
 		logger.log(s, varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -71,7 +71,7 @@ trait Logger[T <: LogOutput] {
 		logger.debug(s, varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the debug output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the debug output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -104,7 +104,7 @@ trait Logger[T <: LogOutput] {
 		logger.info(s, varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the info output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the info output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -137,7 +137,7 @@ trait Logger[T <: LogOutput] {
 		logger.warn(s, varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -170,7 +170,7 @@ trait Logger[T <: LogOutput] {
 		logger.severe(s, varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -193,7 +193,7 @@ trait Logger[T <: LogOutput] {
 		logger.ERROR(s, varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the ERROR output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the ERROR output.
 	  *
 	  * @return true, but false when elided
 	  */

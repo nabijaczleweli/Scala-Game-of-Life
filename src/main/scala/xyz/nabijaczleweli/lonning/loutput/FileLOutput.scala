@@ -114,7 +114,7 @@ class FileLOutput(final val name: String, final val filename: String)(implicit p
 	}
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the severe output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the severe output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -134,7 +134,7 @@ class FileLOutput(final val name: String, final val filename: String)(implicit p
 	}
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -154,7 +154,7 @@ class FileLOutput(final val name: String, final val filename: String)(implicit p
 	}
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the info output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the info output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -174,7 +174,7 @@ class FileLOutput(final val name: String, final val filename: String)(implicit p
 	}
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the debug output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the debug output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -194,7 +194,7 @@ class FileLOutput(final val name: String, final val filename: String)(implicit p
 	}
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -229,7 +229,7 @@ class FileLOutput(final val name: String, final val filename: String)(implicit p
 	}
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
 	  *
 	  * @return true
 	  */

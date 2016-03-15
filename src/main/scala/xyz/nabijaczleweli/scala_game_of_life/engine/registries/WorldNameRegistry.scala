@@ -1,6 +1,6 @@
 package xyz.nabijaczleweli.scala_game_of_life.engine.registries
 
-import xyz.nabijaczleweli.scala_game_of_life.world.IEntityAccess
+import xyz.nabijaczleweli.scala_game_of_life.world.{ICellAccess, IEntityAccess}
 
 import scala.collection.mutable
 

@@ -3,6 +3,7 @@ package xyz.nabijaczleweli.scala_game_of_life.world
 import java.awt.Color
 
 import xyz.nabijaczleweli.scala_game_of_life.cell.Cell
+import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.CellRegistry
 import xyz.nabijaczleweli.scala_game_of_life.engine.save.Saveable
 import xyz.nabijaczleweli.scala_game_of_life.util.CellConv._

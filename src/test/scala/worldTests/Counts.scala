@@ -24,7 +24,7 @@ class Counts {
 		val w = new WorldOver()
 		w add new Chunk({
 			                val a = Array.ofDim[(Short, Int)](Chunk.sizeX, Chunk.sizeY)
-			                for(x <- 0 until a.length; i <- 0 until a(0).length)
+			                for(x <- a.indices; i <- a(0).indices)
 				                a(x)(i) = Tuple2(testCellID, 0)
 			                a
 		                }, 0, 0)
@@ -36,7 +36,7 @@ class Counts {
 		val w = new WorldOver()
 		w add new Chunk({
 			                val a = Array.ofDim[(Short, Int)](Chunk.sizeX, Chunk.sizeY)
-			                for(x <- 0 until a.length; i <- 0 until a(0).length)
+			                for(x <- a.indices; i <- a(0).indices)
 				                a(x)(i) = Tuple2(testCellID, 0)
 			                a
 		                }, 0, 0)

@@ -25,7 +25,7 @@ class Chunk(private val x: Long, private val y: Long) extends Iterable[Cell] wit
 	/** Access: _cells(ecks)(why). f.e: for x=1, y=2 _cells(1)(2) */
 	protected var _cells = {
 		val t = Array.ofDim[Cell](Chunk.sizeX, Chunk.sizeY)
-		for(i <- 0 until t.length; j <- 0 until t(i).length)
+		for(i <- t.indices; j <- t(i).indices)
 			t(i)(j) = new Cell
 		t
 	}

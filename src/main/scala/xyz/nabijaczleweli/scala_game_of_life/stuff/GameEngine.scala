@@ -1,5 +1,7 @@
 package xyz.nabijaczleweli.scala_game_of_life.stuff
 
+import xyz.nabijaczleweli.nactors.Actor
+
 /** Processes all the everythings.
   *
   * @author Jędrzej
@@ -9,7 +11,6 @@ class GameEngine extends Actor {
 	override def receive = {
 		case Tick(world) =>
 			println("Ticking world called \'" + world.toString + '\'')
-
 	}
 }
 

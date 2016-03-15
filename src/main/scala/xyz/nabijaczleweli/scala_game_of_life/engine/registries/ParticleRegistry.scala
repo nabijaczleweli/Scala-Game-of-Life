@@ -1,8 +1,7 @@
 package xyz.nabijaczleweli.scala_game_of_life.engine.registries
 
-import com.scala_game_of_life.entity.particles.SparklesEffect
 import xyz.nabijaczleweli.scala_game_of_life.entity.EntityFX
-import xyz.nabijaczleweli.scala_game_of_life.entity.particles.{SparklesEffect, InvisibilityEffect}
+import xyz.nabijaczleweli.scala_game_of_life.entity.particles.{InvisibilityEffect, SparklesEffect}
 
 import scala.collection.mutable
 

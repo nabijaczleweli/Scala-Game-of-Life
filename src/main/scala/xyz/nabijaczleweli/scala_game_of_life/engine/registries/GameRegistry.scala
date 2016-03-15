@@ -4,7 +4,7 @@ import xyz.nabijaczleweli.lonning.loutput.ConsoleLOutput
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameRenderer
 import GameRenderer.MetadataChangeSource.MetadataChangeSource
 import xyz.nabijaczleweli.scala_game_of_life.util.NumberUtil
-import xyz.nabijaczleweli.scala_game_of_life.world.IEntityAccess
+import xyz.nabijaczleweli.scala_game_of_life.world.{ICellAccess, IEntityAccess}
 
 /** Contains functions to register things.
   *
@@ -20,8 +20,8 @@ object GameRegistry extends ConsoleLOutput("S-GameRegistry") {
 	}
 
 	def registerScreen(enterfunc: => Unit, maxMetadata: Int, name: String, disallowedSources: Seq[MetadataChangeSource], screen: Int) {
-		assume(disallowedSources.length > 0)
-		log(s"Registering enter action and maximal metadata (${maxMetadata & 0xf}) for screen #${NumberUtil setbit screen} named \'$name\', whose metadata cannot be changed by ${var str = ""; for(i <- 0 until disallowedSources.length) str += s"${disallowedSources(i)}${if(i != disallowedSources.length - 1) ", " else ""}"; str}.")
+		assume(disallowedSources.nonEmpty)
+		log(s"Registering enter action and maximal metadata (${maxMetadata & 0xf}) for screen #${NumberUtil setbit screen} named \'$name\', whose metadata cannot be changed by ${var str = ""; for(i <- disallowedSources.indices) str += s"${disallowedSources(i)}${if(i != disallowedSources.length - 1) ", " else ""}"; str}.")
 		MaxMetadataRegistry.add(screen, maxMetadata)
 		EnterActionRegistry.add(screen, () => enterfunc)
 		ScreenNameRegistry.add(screen, name)

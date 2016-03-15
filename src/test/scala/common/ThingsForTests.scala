@@ -1,9 +1,8 @@
 package common
 
-import com.scala_game_of_life.cell.Material
-import com.scala_game_of_life.world.ICellAccess
-import xyz.nabijaczleweli.scala_game_of_life.cell.{Material, Cell}
+import xyz.nabijaczleweli.scala_game_of_life.cell.{Cell, Material}
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.CellRegistry
+import xyz.nabijaczleweli.scala_game_of_life.world.ICellAccess
 
 /** @author Jędrzej
   * @since  07.05.14

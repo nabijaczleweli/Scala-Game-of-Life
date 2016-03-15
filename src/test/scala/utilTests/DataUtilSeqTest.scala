@@ -21,6 +21,7 @@ class DataUtilSeqTest {
 	def `{{0, 1}, {2, 3}}.unfold == {0, 1, 2, 3}`() {
 		val arrarr = Array[Array[Int]](Array[Int](0, 1), Array[Int](2, 3))
 		val arr = DataUtil.unfold[Int](arrarr)
+		//noinspection ZeroIndexToHead
 		assert(arr(0) == arrarr(0)(0))
 		assert(arr(1) == arrarr(0)(1))
 		assert(arr(2) == arrarr(1)(0))

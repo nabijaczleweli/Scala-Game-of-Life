@@ -4,8 +4,9 @@ import java.awt.Color
 import java.lang.reflect.Field
 
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.GameRegistry
+import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine.{world, rand}
 
-import scala.collection.mutable
+import scala.mutable
 
 /** @author Jędrzej
   * @since  15.05.14

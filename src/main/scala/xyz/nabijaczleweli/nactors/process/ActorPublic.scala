@@ -11,7 +11,7 @@ class ActorPublic(private final val home: ActorsHome, private final val actorT: 
 	@SafeVarargs
 	final def !(what: Any*) {
 		val toLog = what filterNot {actor.notLog.contains}
-		if(!toLog.isEmpty)
+		if(toLog.nonEmpty)
 			actorT.debug(s"I got ${if(toLog.size == 1) "a thing" else s"${toLog.size} things"}, ${if(toLog.size == 1) "it" else "them"} being: ")
 		toLog.foreach(one => actorT.debug(s"\t$one"))
 		what.foreach(actorT.mailbox enqueue _)

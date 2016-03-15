@@ -1,14 +1,12 @@
 package xyz.nabijaczleweli.scala_game_of_life.engine
 
-import com.scala_game_of_life.world.ICellAccess
 import xyz.nabijaczleweli.nactors.Actor
 import xyz.nabijaczleweli.scala_game_of_life.cell.{CellAction, Cell}
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.{WorldFuncRegistry, EnterActionRegistry}
 import xyz.nabijaczleweli.scala_game_of_life.engine.save.SaveProcessor
-import xyz.nabijaczleweli.scala_game_of_life.world.{WorldOver, IEntityAccess}
+import xyz.nabijaczleweli.scala_game_of_life.world.{ICellAccess, WorldOver, IEntityAccess}
 import scala.util.Random
 import CellAction.CellAction
-import com.scala_game_of_life.engine.registries.WorldFuncRegistry
 import GameRenderer.RenderInfoHolder.drawInfo
 
 /** Processes all the things.
@@ -19,8 +17,8 @@ import GameRenderer.RenderInfoHolder.drawInfo
 object GameEngine extends Actor("S-Engine") {
 	final var world: ICellAccess with IEntityAccess = new WorldOver
 	/** All <tt>wait()</tt>ers are notified on this object whenever [[GameEngine]] changes its <tt>world</tt> on its own. */
-	final val rand                                       = new Random
-	final val nameOfSave: String                         = null
+	final val rand                                  = new Random
+	final val nameOfSave: String                    = null
 
 	override def receive = {
 		case TickCells(0) =>
@@ -94,8 +92,7 @@ object GameEngine extends Actor("S-Engine") {
   * @since  14.05.14
   */
 object EntityGameEngine extends Actor("S-EntityEngine", TickEntities() :: Nil) {
-
-	import com.scala_game_of_life.engine.GameEngine._
+	import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine._
 
 	override def receive = {
 		case TickEntities() =>

@@ -2,9 +2,12 @@ package xyz.nabijaczleweli.scala_game_of_life.engine.registries
 
 import java.awt.Color
 import xyz.nabijaczleweli.scala_game_of_life.cell.CellAction.CellAction
-import xyz.nabijaczleweli.scala_game_of_life.cell.{Cell, CellAction, Material}
+import xyz.nabijaczleweli.scala_game_of_life.cell.{Cell, Material}
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameRenderer
 import xyz.nabijaczleweli.scala_game_of_life.entity.Entity
+import xyz.nabijaczleweli.scala_game_of_life.util.ColorRainbow
+import xyz.nabijaczleweli.scala_game_of_life.world.ICellAccess
+import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine.rand
 
 import scala.collection.mutable
 
@@ -15,7 +18,6 @@ import scala.collection.mutable
   * @since  06.05.14
   */
 object CellRegistry extends Registry[Cell, Short] {
-
 	private final var __idtocell = new mutable.HashMap[key_type, stored_type]
 	private final var __celltoid = new mutable.HashMap[stored_type, key_type]
 	private final var length     = 0

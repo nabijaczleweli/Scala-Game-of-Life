@@ -10,7 +10,6 @@ import Formatter._
   * @since  17.04.14
   */
 class StringLOutput(final val name: String) extends LogOutput {
-
 	import java.lang.System.{lineSeparator => nl}
 
 	@volatile
@@ -23,7 +22,7 @@ class StringLOutput(final val name: String) extends LogOutput {
 	@elidable(INFO)
 	@inline
 	override def info(s: String): Boolean = {
-		logged += s"${getPreStuffs(name, INFO) } $s$nl"
+		logged += s"${getPreStuffs(name, INFO)} $s$nl"
 		true
 	}
 
@@ -45,7 +44,7 @@ class StringLOutput(final val name: String) extends LogOutput {
 	@elidable(FINER)
 	@inline
 	override def log(s: String): Boolean = {
-		logged += s"${getPreStuffs(name, FINER) } $s$nl"
+		logged += s"${getPreStuffs(name, FINER)} $s$nl"
 		true
 	}
 
@@ -56,7 +55,7 @@ class StringLOutput(final val name: String) extends LogOutput {
 	@elidable(WARNING)
 	@inline
 	override def warn(s: String): Boolean = {
-		logged += s"${getPreStuffs(name, WARNING) } $s$nl"
+		logged += s"${getPreStuffs(name, WARNING)} $s$nl"
 		true
 	}
 
@@ -67,7 +66,7 @@ class StringLOutput(final val name: String) extends LogOutput {
 	@elidable(SEVERE)
 	@inline
 	override def severe(s: String): Boolean = {
-		logged += s"${getPreStuffs(name, SEVERE) } $s$nl"
+		logged += s"${getPreStuffs(name, SEVERE)} $s$nl"
 		true
 	}
 
@@ -77,7 +76,7 @@ class StringLOutput(final val name: String) extends LogOutput {
 	  */
 	@inline
 	override def ERROR(s: String): Boolean = {
-		logged += s"${getPreStuffs(name, 5000) } $s$nl"
+		logged += s"${getPreStuffs(name, 5000)} $s$nl"
 		true
 	}
 }

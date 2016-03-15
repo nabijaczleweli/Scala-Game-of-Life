@@ -209,7 +209,7 @@ object NullLOutput extends LogOutput {
 		true
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the ERROR output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the ERROR output.
 	  *
 	  * @return true
 	  */

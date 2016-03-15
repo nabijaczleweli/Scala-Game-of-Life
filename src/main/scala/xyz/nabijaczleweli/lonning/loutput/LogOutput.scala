@@ -36,7 +36,7 @@ trait LogOutput {
 		log(s format varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the log output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -77,7 +77,7 @@ trait LogOutput {
 		debug(s format varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the debug output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the debug output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -118,7 +118,7 @@ trait LogOutput {
 		info(s format varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the info output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the info output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -159,7 +159,7 @@ trait LogOutput {
 		warn(s format varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the warning output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -200,7 +200,7 @@ trait LogOutput {
 		severe(s format varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the severe output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the severe output.
 	  *
 	  * @return true, but false when elided
 	  */
@@ -238,7 +238,7 @@ trait LogOutput {
 		ERROR(s format varargs)
 
 	/** Writes line containing date, time, etc + <code>s + throwable.getClass.getSimpleName</code> and
-	  * repeateadly getStackTrace(i) for i 1 until getStackTrace.length line to the ERROR output.
+	  * repeatedly getStackTrace(i) for i 1 until getStackTrace.length line to the ERROR output.
 	  *
 	  * @return true
 	  */

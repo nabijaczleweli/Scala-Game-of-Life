@@ -26,7 +26,7 @@ class RandomSeq[stored] extends Seq[stored] {self =>
 			}
 
 			override def hasNext: Boolean =
-				!theThings.isEmpty
+				theThings.nonEmpty
 
 			override def next(): stored =
 				theThings.dequeue()

@@ -14,8 +14,8 @@ class World(private val from: List[Chunk]) extends ICellAccess {
 	/** Not stored in xy order, just a raw array. */
 	private var _chunks: Array[Chunk] =
 		if(from != null) {
-			val t = new Array[Chunk](from size)
-			System.arraycopy(from toArray, 0, t, 0, from size)
+			val t = new Array[Chunk](from.size)
+			System.arraycopy(from.toArray, 0, t, 0, from.size)
 			t
 		} else
 			null
@@ -41,7 +41,7 @@ class World(private val from: List[Chunk]) extends ICellAccess {
 			var u: List[Chunk] = List[Chunk]()
 			for(i <- t; j <- i)
 				u = u.::(j)
-			System.arraycopy(u toArray, 0, _chunks, 0, w * h)
+			System.arraycopy(u.toArray, 0, _chunks, 0, w * h)
 		}
 	}
 
@@ -87,7 +87,7 @@ class World(private val from: List[Chunk]) extends ICellAccess {
 				} else {
 					val t = new Array[Chunk](_chunks.length - 1)
 					var r = false
-					for(i <- 0 until _chunks.length)
+					for(i <- _chunks.indices)
 						if(i == gcifc)
 							r = true
 						else
@@ -97,7 +97,7 @@ class World(private val from: List[Chunk]) extends ICellAccess {
 			}
 		}
 		val newchunks = new Array[Chunk](_chunks.length + 1)
-		System.arraycopy(_chunks, 0, newchunks, 0, _chunks length)
+		System.arraycopy(_chunks, 0, newchunks, 0, _chunks.length)
 		newchunks(newchunks.length - 1) = n
 		_chunks = newchunks
 	}
@@ -124,14 +124,14 @@ class World(private val from: List[Chunk]) extends ICellAccess {
 	}
 
 	protected def getChunkIndexFromCoords(x: Long, y: Long): Int = {
-		for(i <- 0 until _chunks.length)
+		for(i <- _chunks.indices)
 			if(_chunks(i).pos._1 == x && _chunks(i).pos._2 == y)
 				return i
 		Integer.MIN_VALUE
 	}
 
 	override def isEmpty =
-		_chunks.length == 0
+		_chunks.isEmpty
 
 	override def count = {
 		var c: Long = 0

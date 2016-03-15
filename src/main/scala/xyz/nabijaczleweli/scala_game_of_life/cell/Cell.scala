@@ -1,10 +1,12 @@
 package xyz.nabijaczleweli.scala_game_of_life.cell
 
 import java.awt.Color
+import xyz.nabijaczleweli.scala_game_of_life.cell.Material.Material
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameRenderer
 import xyz.nabijaczleweli.scala_game_of_life.engine.save.Saveable
 import xyz.nabijaczleweli.scala_game_of_life.entity.Entity
 import xyz.nabijaczleweli.scala_game_of_life.util.MathUtil
+import xyz.nabijaczleweli.scala_game_of_life.world.ICellAccess
 
 /** Basic cell.
   *
@@ -17,27 +19,27 @@ abstract class Cell(val material: Material) extends Saveable {
 	  *
 	  * world: use one from GameEngine$
 	  *
-	  * @see [[com.scala_game_of_life.engine.GameEngine]]
+	  * @see [[xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine]]
 	  */
-	def onUpdate(x: Long, y: Long): Unit = Unit
+	def onUpdate(x: Long, y: Long): Unit = ()
 
 	/** Called whenever any CellAction happens.
 	  *
 	  * world: use one from GameEngine$
 	  *
-	  * @see [[com.scala_game_of_life.engine.GameEngine]]
+	  * @see [[xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine]]
 	  */
-	def onCellAction(x: Long, y: Long, action: CellAction.CellAction): Unit = Unit
+	def onCellAction(x: Long, y: Long, action: CellAction.CellAction): Unit = ()
 
 	/** Called whenever any neighbouring cell happens to change.
 	  *
 	  * world: use one from GameEngine$
 	  *
-	  * @see [[com.scala_game_of_life.engine.GameEngine]]
+	  * @see [[xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine]]
 	  */
-	def onNeighbourCellChange(x: Long, y: Long, changedCell: (Cell, Long, Long), action: CellAction.CellAction): Unit = Unit
+	def onNeighbourCellChange(x: Long, y: Long, changedCell: (Cell, Long, Long), action: CellAction.CellAction): Unit = ()
 
-	def onEntityWalking(entity: Entity): Unit = Unit
+	def onEntityWalking(entity: Entity): Unit = ()
 
 	final override def saveDomain =
 		null
@@ -54,7 +56,7 @@ abstract class Cell(val material: Material) extends Saveable {
 	  * world: use one from GameEngine$
 	  *
 	  * @see [[GameRenderer]]
-	  * @see [[com.scala_game_of_life.engine.GameEngine]]
+	  * @see [[xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine]]
 	  */
 	def draw(onScreenX: Int, onScreenY: Int, worldY: Long, worldX: Long, world: ICellAccess) {
 		graph setColor Color.magenta

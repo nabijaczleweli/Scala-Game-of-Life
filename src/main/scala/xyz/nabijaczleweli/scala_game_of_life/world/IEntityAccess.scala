@@ -3,7 +3,7 @@ package xyz.nabijaczleweli.scala_game_of_life.world
 import javax.sound.sampled.{AudioInputStream, AudioSystem}
 
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameRenderer
-import xyz.nabijaczleweli.scala_game_of_life.engine.registries.ParticleRegistry
+import xyz.nabijaczleweli.scala_game_of_life.engine.registries.{SoundRegistry, ParticleRegistry}
 import xyz.nabijaczleweli.scala_game_of_life.entity.{AxisAlignedBB, Entity, EntityFX, EntityPlayer}
 
 import scala.ref.{Reference, WeakReference}

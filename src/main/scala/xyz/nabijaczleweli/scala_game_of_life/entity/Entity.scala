@@ -5,8 +5,9 @@ import xyz.nabijaczleweli.scala_game_of_life.cell.Material.Material
 import xyz.nabijaczleweli.scala_game_of_life.cell.{Cell, Material}
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.{CellRegistry, EntityNameRegistry}
 import xyz.nabijaczleweli.scala_game_of_life.engine.save.Saveable
+import xyz.nabijaczleweli.scala_game_of_life.entity.Effect.Effect
 import xyz.nabijaczleweli.scala_game_of_life.util.DataUtil
-import xyz.nabijaczleweli.scala_game_of_life.world.IEntityAccess
+import xyz.nabijaczleweli.scala_game_of_life.world.{ICellAccess, IEntityAccess}
 
 import scala.ref.Reference
 

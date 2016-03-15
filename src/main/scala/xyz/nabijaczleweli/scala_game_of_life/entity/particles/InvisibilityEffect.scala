@@ -3,7 +3,7 @@ package xyz.nabijaczleweli.scala_game_of_life.entity.particles
 import java.awt.Color
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameRenderer
 import xyz.nabijaczleweli.scala_game_of_life.entity.EntityFX
-import xyz.nabijaczleweli.scala_game_of_life.world.IEntityAccess
+import xyz.nabijaczleweli.scala_game_of_life.world.{ICellAccess, IEntityAccess}
 
 import scala.ref.Reference
 

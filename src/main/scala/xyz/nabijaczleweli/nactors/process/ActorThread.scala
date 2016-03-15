@@ -20,7 +20,7 @@ class ActorThread(private final val name: String, private final val home: Actors
 				home synchronized {
 					home.wait()
 				}
-				while(!mailbox.isEmpty)
+				while(mailbox.nonEmpty)
 					home.actors(myIndex).react(mailbox.dequeue(), this)
 			}
 		} catch {
