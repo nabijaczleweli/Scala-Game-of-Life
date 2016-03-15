@@ -1,9 +1,5 @@
 package xyz.nabijaczleweli.nactors
 
-import net.nactors.process.ActorsHome
-import net.lonning.loutput.LogOutput
-import xya.nabijaczleweli.lonning.loutput.LogOutput
-import xya.nabijaczleweli.nactors.process.ActorsHome
 import xyz.nabijaczleweli.lonning.loutput.{LogOutput, ConsoleLOutput}
 import xyz.nabijaczleweli.nactors.process.{ActorsHome, ActorThread, Actors}
 

@@ -6,7 +6,7 @@ import java.lang.reflect.Field
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.GameRegistry
 import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine.{world, rand}
 
-import scala.mutable
+import scala.collection.mutable.{HashMap => mHashMap}
 
 /** @author Jędrzej
   * @since  15.05.14
@@ -21,7 +21,7 @@ class WorldNether private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends World(() => {
 			_chunks ++= from
 		val f = classOf[World].getDeclaredField("__gcifccache")
 		f setAccessible true
-		f.set(this, new mutable.HashMap[(Long, Long), Int])
+		f.set(this, new mHashMap[(Long, Long), Int])
 	}
 
 	def this() =

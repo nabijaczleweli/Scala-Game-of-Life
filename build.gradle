@@ -26,10 +26,9 @@ tasks.withType(ScalaCompile) {
         elide = '-Xelide-below FINER'
     scalaCompileOptions.fork = true
     scalaCompileOptions.useCompileDaemon = true
-    scalaCompileOptions.additionalParameters = ['-target:jvm-1.7', '-Xdev', elide]
-    scalaCompileOptions.forkOptions.memoryMaximumSize = '768m'
-    scalaCompileOptions.forkOptions.jvmArgs += ['-XX:MaxPermSize=768m']
+    scalaCompileOptions.additionalParameters = ['-Xdev', elide]
 }
+
 task run(type: JavaExec, dependsOn: classes) {
     main = 'com.scala_game_of_life.Main'
     classpath sourceSets.main.runtimeClasspath

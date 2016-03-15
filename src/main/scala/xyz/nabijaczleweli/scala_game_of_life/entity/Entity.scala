@@ -3,6 +3,7 @@ package xyz.nabijaczleweli.scala_game_of_life.entity
 import java.util.UUID
 import xyz.nabijaczleweli.scala_game_of_life.cell.Material.Material
 import xyz.nabijaczleweli.scala_game_of_life.cell.{Cell, Material}
+import xyz.nabijaczleweli.scala_game_of_life.engine.GameEngine
 import xyz.nabijaczleweli.scala_game_of_life.engine.registries.{CellRegistry, EntityNameRegistry}
 import xyz.nabijaczleweli.scala_game_of_life.engine.save.Saveable
 import xyz.nabijaczleweli.scala_game_of_life.entity.Effect.Effect

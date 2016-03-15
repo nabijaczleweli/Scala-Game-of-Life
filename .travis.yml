@@ -6,3 +6,8 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+script:
+  - ln -s src/main/resources/assets assets
+  - ./gradlew assemble
+  - ./gradlew check

@@ -1,9 +1,8 @@
 package worldTests
 
-import org.junit.Test
-import com.scala_game_of_life.world.WorldOver
 import common.ThingsForTests.testCellID
-import xyz.nabijaczleweli.scala_game_of_life.world.{WorldOver, Chunk}
+import org.junit.Test
+import xyz.nabijaczleweli.scala_game_of_life.world.{Chunk, WorldOver}
 
 /** For various tests involving counting stuff.
   *

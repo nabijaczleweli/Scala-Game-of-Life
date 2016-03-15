@@ -5,7 +5,7 @@ package xyz.nabijaczleweli.scala_game_of_life.stuff
   * @author Jędrzej
   * @since  24.03.14
   */
-object Chunk {
+object Chunk extends Ordering[Chunk] {
 	final val sizeX = 8
 	final val sizeY = 8
 
@@ -14,6 +14,8 @@ object Chunk {
 		final val Absolute, Local = Value
 	}
 
+	override def compare(x: Chunk, y: Chunk): Int =
+		((x._xpos - y._xpos) + (x._ypos - y._ypos)).asInstanceOf[Int]
 }
 
 /** Used only in World as of the time being.
@@ -21,7 +23,7 @@ object Chunk {
   * @author Jędrzej
   * @since  24.03.14
   */
-class Chunk(private val x: Long, private val y: Long) extends Iterable[Cell] with Ordering[Chunk] with Traversable[Cell] {
+class Chunk(private val x: Long, private val y: Long) extends Iterable[Cell] with Traversable[Cell] {
 	/** Access: _cells(ecks)(why). f.e: for x=1, y=2 _cells(1)(2) */
 	protected var _cells = {
 		val t = Array.ofDim[Cell](Chunk.sizeX, Chunk.sizeY)
@@ -65,7 +67,7 @@ class Chunk(private val x: Long, private val y: Long) extends Iterable[Cell] wit
 		_cells(x)(y)
 
 	/*def toArr: Array[Array[Cell]] =
-			_cells // It deasn't return a reference, does it?*/
+			_cells // It doesn't return a reference, does it?*/
 
 	override def iterator: Iterator[Cell] =
 		new Iterator[Cell] {
@@ -85,9 +87,6 @@ class Chunk(private val x: Long, private val y: Long) extends Iterable[Cell] wit
 			override def hasNext =
 				Chunk.sizeX < (xpos + 1) && Chunk.sizeY < (ypos + 1)
 		}
-
-	override def compare(x: Chunk, y: Chunk): Int =
-		((x._xpos - y._xpos) + (x._ypos - y._ypos)).asInstanceOf[Int]
 
 	/** Returns Tuple2(ecks, why) */
 	def pos =
