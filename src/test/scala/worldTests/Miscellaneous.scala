@@ -2,7 +2,8 @@ package worldTests
 
 import org.junit.Test
 import java.lang.reflect.Field
-import com.scala_game_of_life.world.{WorldOver, Chunk}
+import com.scala_game_of_life.world.WorldOver
+import xyz.nabijaczleweli.scala_game_of_life.world.{WorldOver, Chunk}
 
 /** Miscellaneous tests not deserving their own class.
   *

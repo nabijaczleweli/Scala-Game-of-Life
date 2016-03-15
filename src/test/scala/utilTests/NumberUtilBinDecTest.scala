@@ -1,8 +1,9 @@
 package utilTests
 
 import org.junit.Test
+import xyz.nabijaczleweli.scala_game_of_life.util.NumberUtil
 import scala.annotation.tailrec
-import com.scala_game_of_life.util.NumberUtil._
+import NumberUtil._
 import scala.util.Random
 
 /** @author Jędrzej

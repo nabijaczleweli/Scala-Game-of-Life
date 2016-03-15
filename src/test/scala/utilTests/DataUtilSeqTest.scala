@@ -1,7 +1,7 @@
 package utilTests
 
 import org.junit.Test
-import com.scala_game_of_life.util.DataUtil
+import xyz.nabijaczleweli.scala_game_of_life.util.DataUtil
 
 /** @author Jędrzej
   * @since  07.05.14

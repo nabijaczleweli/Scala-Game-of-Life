@@ -1,7 +1,8 @@
 package worldTests
 
-import com.scala_game_of_life.stuff.{Chunk, World}
+import com.scala_game_of_life.stuff.World
 import org.junit.Test
+import xyz.nabijaczleweli.scala_game_of_life.stuff.{World, Chunk}
 
 /** Test of creation of the World.
   *

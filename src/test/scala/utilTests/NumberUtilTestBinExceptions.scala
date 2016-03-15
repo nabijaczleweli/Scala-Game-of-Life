@@ -1,7 +1,7 @@
 package utilTests
 
 import org.junit.Test
-import com.scala_game_of_life.util.NumberUtil
+import xyz.nabijaczleweli.scala_game_of_life.util.NumberUtil
 
 /** @author Jędrzej
   * @since  26.04.14

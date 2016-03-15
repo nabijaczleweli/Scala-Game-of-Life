@@ -1,7 +1,7 @@
 package chunkTests
 
 import org.junit.Test
-import com.scala_game_of_life.world.Chunk
+import xyz.nabijaczleweli.scala_game_of_life.world.Chunk
 import scala.annotation.tailrec
 import common.ThingsForTests.testCellID
 
